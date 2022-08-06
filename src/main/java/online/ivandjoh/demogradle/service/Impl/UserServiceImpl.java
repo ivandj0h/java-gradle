@@ -3,6 +3,8 @@ package online.ivandjoh.demogradle.service.Impl;
 import online.ivandjoh.demogradle.Entity.User;
 import online.ivandjoh.demogradle.repository.UserRepository;
 import online.ivandjoh.demogradle.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public ResponseEntity<List<User>> getAllUsers() {
@@ -59,8 +63,9 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<?> createUser(User user) {
         try {
             User newUser = userRepository.save(user);
-
-            return ResponseEntity.ok(newUser);
+            logger.info("Creating user: {}", newUser);
+//            return ResponseEntity.ok(newUser);
+            return null;
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

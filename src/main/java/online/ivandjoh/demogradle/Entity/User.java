@@ -20,17 +20,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "full_name")
+    private String fullName;
 
-    @Column(name = "email", unique = true)
-    private String email;
+    @Column(name = "email_address", unique = true)
+    private String emailAddress;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "ages")
+    private int ages;
 
     @Column(name = "salary")
-    private float salary;
+    private int salary;
 
     @Override
     public boolean equals(Object o) {
