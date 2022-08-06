@@ -42,14 +42,14 @@ public class UserServiceImpl implements UserService {
         try {
             User userToUpdate = userRepository.findById(id).orElse(null);
 
-            assert userToUpdate != null;
-            userToUpdate.setName(user.getName());
-            userToUpdate.setEmail(user.getEmail());
-            userToUpdate.setAge(user.getAge());
-            userToUpdate.setSalary(user.getSalary());
-            userRepository.save(userToUpdate);
+            if (userToUpdate == null) {
+                return ResponseEntity.notFound().build();
+            } else {
 
-            return ResponseEntity.ok(userToUpdate);
+                userRepository.save(userToUpdate);
+
+                return ResponseEntity.ok(userToUpdate);
+            }
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
@@ -68,9 +68,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> deleteUser(Long id) {
+        User deleteUser = null;
         try {
-            userRepository.deleteById(id);
-
+            deleteUser = userRepository.findById(id).orElse(null);
+            if (deleteUser != null) {
+                userRepository.delete(deleteUser);
+            } else {
+                throw new Exception("User not found!!");
+            }
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

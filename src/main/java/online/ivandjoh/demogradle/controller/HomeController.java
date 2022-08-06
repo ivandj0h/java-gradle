@@ -3,8 +3,11 @@ package online.ivandjoh.demogradle.controller;
 import online.ivandjoh.demogradle.Entity.User;
 import online.ivandjoh.demogradle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -26,8 +29,14 @@ public class HomeController {
 
 	@GetMapping("/users/all")
 	public ResponseEntity<?> getAllUsers() {
+		List<User> users = null;
+		try {
+			users = (List<User>) userService.getAllUsers();
 
-		return userService.getAllUsers();
+			return new ResponseEntity<>(users, HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@GetMapping("/users/id")
